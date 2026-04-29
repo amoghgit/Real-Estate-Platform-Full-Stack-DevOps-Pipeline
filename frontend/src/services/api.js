@@ -33,6 +33,12 @@ export const createProperty = async (propertyData) => {
   return response.data;
 };
 
+// Delete a property by ID
+export const deleteProperty = async (id) => {
+  const response = await api.delete(`/properties/${id}`);
+  return response.data;
+};
+
 // Health check
 export const checkHealth = async () => {
   const response = await api.get('/health');

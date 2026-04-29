@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getProperties } from '../services/api';
+import { getProperties, deleteProperty } from '../services/api';
 import AddPropertyForm from '../components/AddPropertyForm';
 import PropertyCard from '../components/PropertyCard';
 
@@ -15,6 +15,18 @@ const AdminPage = () => {
       console.error('Error:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this property?')) {
+      try {
+        await deleteProperty(id);
+        fetchProperties(); // Refresh the list
+      } catch (err) {
+        console.error('Failed to delete property:', err);
+        alert('Failed to delete property. Please try again.');
+      }
     }
   };
 
@@ -47,7 +59,7 @@ const AdminPage = () => {
           ) : properties.length > 0 ? (
             <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
               {properties.map((p) => (
-                <PropertyCard key={p._id} property={p} />
+                <PropertyCard key={p._id} property={p} onDelete={handleDelete} />
               ))}
             </div>
           ) : (

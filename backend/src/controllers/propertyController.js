@@ -112,8 +112,41 @@ const createProperty = async (req, res) => {
   }
 };
 
+// @desc    Delete single property by ID
+// @route   DELETE /api/properties/:id
+const deleteProperty = async (req, res) => {
+  try {
+    const property = await Property.findByIdAndDelete(req.params.id);
+
+    if (!property) {
+      return res.status(404).json({
+        success: false,
+        error: 'Property not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
+    });
+  } catch (error) {
+    if (error.kind === 'ObjectId') {
+      return res.status(404).json({
+        success: false,
+        error: 'Property not found',
+      });
+    }
+    console.error('Error deleting property:', error.message);
+    res.status(500).json({
+      success: false,
+      error: 'Server error while deleting property',
+    });
+  }
+};
+
 module.exports = {
   getAllProperties,
   getPropertyById,
   createProperty,
+  deleteProperty,
 };

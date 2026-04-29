@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const PropertyCard = ({ property }) => {
+const PropertyCard = ({ property, onDelete }) => {
   const formatPrice = (price) => {
     if (price >= 10000000) return `₹${(price / 10000000).toFixed(1)} Cr`;
     if (price >= 100000) return `₹${(price / 100000).toFixed(1)} L`;
@@ -42,6 +42,25 @@ const PropertyCard = ({ property }) => {
             </svg>
           </div>
         </div>
+
+        {/* Delete Button (if onDelete provided) */}
+        {onDelete && (
+          <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDelete(property._id);
+              }}
+              className="bg-red-500/80 hover:bg-red-600 backdrop-blur-sm p-2 rounded-full shadow-lg transition-colors"
+              title="Delete Property"
+            >
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Content */}
