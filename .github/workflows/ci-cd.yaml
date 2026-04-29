@@ -122,6 +122,7 @@ jobs:
             kubectl apply -f k8s/backend-service.yaml
             kubectl apply -f k8s/frontend-deployment.yaml
             kubectl apply -f k8s/frontend-service.yaml
+            kubectl apply -f k8s/ingress.yaml
 
             # Restart deployments to pull latest images
             kubectl rollout restart deployment/backend -n realestate
