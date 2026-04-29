@@ -97,8 +97,11 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Fix K3s permissions
-            sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+            # Ensure fresh, readable kubeconfig for the deployment
+            mkdir -p ~/.kube
+            sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+            sudo chown ubuntu:ubuntu ~/.kube/config
+            export KUBECONFIG=~/.kube/config
 
             # Update kubectl configs
             cd ~/realestate || git clone https://github.com/${{ github.repository }}.git ~/realestate
