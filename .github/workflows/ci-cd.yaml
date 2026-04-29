@@ -97,6 +97,9 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            # Fix K3s permissions
+            sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+
             # Update kubectl configs
             cd ~/realestate || git clone https://github.com/${{ github.repository }}.git ~/realestate
             cd ~/realestate && git pull origin main
